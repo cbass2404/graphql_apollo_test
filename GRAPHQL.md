@@ -416,3 +416,57 @@ mutation{
 ## Client Side (Apollo)
 
 ---
+
+-   Apollo Store and Provider are key parts of the apollo client
+
+    -   Apollo Store is the primary storage location for data coming from graphql
+    -   Apollo Store is client side agnostic, you need the provider (react-apollo) to make it care
+    -   Apollo provider is what takes data from the store and injects it into the React application
+    -   Apollo operates on assumptions that you are following the general convention of calling client/graphql
+
+-   Needed packages for apollo use are:
+    -   apollo-client
+    -   react-apollo
+
+```javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import ApolloClient from "apollo-client";
+import { ApolloProvider } from "react-apollo";
+
+const client = new ApolloClient({});
+
+const Root = () => {
+    return (
+        <ApolloProvider client={client}>
+            <div>Lyrical</div>
+        </ApolloProvider>
+    );
+};
+
+ReactDOM.render(<Root />, document.querySelector("#root"));
+```
+
+-   Import the following into a file to make graphql queries:
+
+```javascript
+import gql from "graphql-tag";
+
+const query = gql`
+    {
+        songs {
+            title
+        }
+    }
+`;
+```
+
+-   Now bond the component and query together as below:
+
+```javascript
+import { graphql } from "react-apollo";
+
+export default graphql(query)(SongList);
+```
+
+_The above import is the glue that bonds the query and component together_
