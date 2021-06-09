@@ -1,28 +1,65 @@
-import React from "react";
+import React, { Component } from "react";
+import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 import { Link } from "react-router";
 import fetchSongsQuery from "../queries/fetchSongs";
 
-const SongList = ({ data: { songs, loading } }) => {
-    const renderSongs = () => {
-        return songs.map((song) => {
+class SongList extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+    }
+
+    onSongDelete(id) {
+        this.props
+            .mutate({
+                variables: { id },
+            })
+            .then(() => this.props.data.refetch());
+    }
+
+    renderSongs() {
+        return this.props.data.songs.map(({ id, title }) => {
             return (
-                <li key={song.id} className="collection-item">
-                    {song.title}
+                <li key={id} className="collection-item">
+                    {title}
+                    <i
+                        className="material-icons"
+                        onClick={() => this.onSongDelete(id)}
+                    >
+                        delete
+                    </i>
                 </li>
             );
         });
-    };
-    return (
-        <div>
-            <ul className="collection">
-                {!loading ? renderSongs() : "Loading..."}
-            </ul>
-            <Link to="/songs/new" className="btn-floating btn-large red right">
-                <i className="material-icons">add</i>
-            </Link>
-        </div>
-    );
-};
+    }
 
-export default graphql(fetchSongsQuery)(SongList);
+    render() {
+        if (this.props.data.loading) {
+            return <div>Loading...</div>;
+        }
+
+        return (
+            <div>
+                <ul className="collection">{this.renderSongs()}</ul>
+                <Link
+                    to="/songs/new"
+                    className="btn-floating btn-large red right"
+                >
+                    <i className="material-icons">add</i>
+                </Link>
+            </div>
+        );
+    }
+}
+
+const mutation = gql`
+    mutation DeleteSong($id: ID) {
+        deleteSong(id: $id) {
+            id
+        }
+    }
+`;
+
+export default graphql(mutation)(graphql(fetchSongsQuery)(SongList));

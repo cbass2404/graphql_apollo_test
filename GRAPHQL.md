@@ -527,3 +527,21 @@ this.props
 ```javascript
 refetchQueries: [{ query: fetchSongsQuery, variables: { title: "bugga boo" } }];
 ```
+
+-   Delete mutations with queries, graphql does not take two arguments so you have to nest it
+
+```javascript
+export default graphql(mutation)(graphql(fetchSongsQuery)(SongList));
+```
+
+-   use refetchQueries when you need to call a query on another component, if it is the same component use the following:
+
+```javascript
+onSongDelete(id) {
+        this.props
+            .mutate({
+                variables: { id },
+            })
+            .then(() => this.props.data.refetch());
+    }
+```
