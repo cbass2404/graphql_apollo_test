@@ -545,3 +545,15 @@ onSongDelete(id) {
             .then(() => this.props.data.refetch());
     }
 ```
+
+-   If you call a query that requires a variable, do it like this
+    -   queries happen right away
+    -   mutations wait until you call them
+
+```javascript
+export default graphql(fetchSong, {
+    options: (props) => {
+        return { variables: { id: props.params.id } };
+    },
+})(SongDetail);
+```
