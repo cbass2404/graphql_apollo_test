@@ -507,5 +507,23 @@ export default graphql(mutation)(Component);
 ```
 
 -   This setup instantiates variables into the mutation
-
 -   When wrapping a mutation you get an object called props.mutate
+-   One issue is that Apollo does not automatically know to fetch data again if you add a new record
+
+```javascript
+this.props
+    .mutate({
+        variables: {
+            title: this.state.title,
+        },
+        refetchQueries: [{ query: fetchSongsQuery }],
+    })
+    .then(() => hashHistory.push("/"));
+```
+
+-   This tells it to run this query again before redirecting
+-   refetchQueries has two arguments, query variables for the query
+
+```javascript
+refetchQueries: [{ query: fetchSongsQuery, variables: { title: "bugga boo" } }];
+```
