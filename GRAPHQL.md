@@ -469,4 +469,43 @@ import { graphql } from "react-apollo";
 export default graphql(query)(SongList);
 ```
 
-_The above import is the glue that bonds the query and component together_
+-   The above import is the glue that bonds the query and component together
+
+-   If something has already been rendered once and redirected back to that page, it will not do it again automatically
+
+-   To add variables from inside components to the mutation do the following:
+
+```javascript
+import React, { Component } from "react";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
+
+const Component = ({ mutate }) => {
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        mutate({
+            variables: {
+                title: this.state.title,
+            },
+        });
+    };
+
+    return <div>React Stuff </div>;
+};
+
+const mutation = gql`
+    mutation AddSong($title: String) {
+        addSong(title: $title) {
+            id
+            title
+        }
+    }
+`;
+
+export default graphql(mutation)(Component);
+```
+
+-   This setup instantiates variables into the mutation
+
+-   When wrapping a mutation you get an object called props.mutate

@@ -1,6 +1,6 @@
 # Lyrical-GraphQL
 
-Starter project from a GraphQL course on Udemy.com
+Starter project from a GraphQL course on Udemy.com using React, Apollo and GraphQL. It is an app to create a song title, and have users create a song, line by line, and have people vote on the next best line.
 
 ## Install
 
