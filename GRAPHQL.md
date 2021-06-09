@@ -4,6 +4,8 @@
 
 _To make a quick test server use [json-server](https://github.com/typicode/json-server)_
 
+[React Cache Updates](dev.apollodata.com/react/cache-updates.html)
+
 > Why does GraphQL exist?
 
 ### Rest-ful Routing:
