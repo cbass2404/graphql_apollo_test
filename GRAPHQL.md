@@ -559,3 +559,31 @@ export default graphql(fetchSong, {
     },
 })(SongDetail);
 ```
+
+## Optimistic UI Updates
+
+---
+
+```
+Call Mutation
+Guess at response
+Ui updates
+......
+......
+......
+Response comes back
+UI updates
+```
+
+```javascript
+this.props.mutate({
+    variables: { id },
+    optimisticResponse: {
+        __typename: "Mutation",
+        likeLyric: {
+            id: id,
+            __typename: "LyricType",
+            likes: likes + 1,
+        },
+    },
+```

@@ -3,6 +3,12 @@
     justify-content: space-between;
 }
 
+.vote-box {
+    display: flex;
+    align-items: center;
+}
+
 .material-icons {
     cursor: pointer;
+    margin-left: 5px;
 }
